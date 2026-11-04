@@ -150,9 +150,10 @@ def main():
     ap.add_argument("--width", type=int, default=None, help="vision capture width (default: 640)")
     ap.add_argument("--height", type=int, default=None, help="vision capture height (default: 480)")
     ap.add_argument("--max-hands", type=int, choices=(1, 2), default=None, help="vision: maximum hands")
-    ap.add_argument("--pose-complexity", type=int, choices=(0, 1), default=None, help="vision: pose model complexity")
+    ap.add_argument("--pose-complexity", type=int, choices=(0, 1), default=None, help="vision: pose model complexity (0=Lite, 1=Full)")
     ap.add_argument("--hands-complexity", type=int, choices=(0, 1), default=None, help="vision: hands model complexity")
     ap.add_argument("--no-display", action="store_true", help="vision: disable debug window")
+    ap.add_argument("--display", action="store_true", help="vision: show separate debug window")
     ap.add_argument("--stats", action="store_true", help="vision: print processing timings")
     args = ap.parse_args()
 
@@ -168,7 +169,7 @@ def main():
         value = getattr(args, option)
         if value is not None:
             vision_args += ["--" + option.replace("_", "-"), str(value)]
-    if args.no_display:
+    if args.no_display or not args.display:
         vision_args.append("--no-display")
     if args.stats:
         vision_args.append("--stats")
