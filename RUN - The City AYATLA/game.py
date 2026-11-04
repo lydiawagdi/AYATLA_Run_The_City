@@ -39,6 +39,7 @@ KEYS (--no-hub):  1-4 fingers_N | O ok_sign | X hold_x (hold the key) |
 
 import argparse
 import copy
+import io
 import json
 import math
 import queue
@@ -863,6 +864,17 @@ class Game:
         self.x_held = False
         self.x_timer = 0.0
         self.running = True
+        self.camera_preview = None
+        self.preview_socket = None
+        try:
+            self.preview_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.preview_socket.bind(("127.0.0.1", 5001))
+            self.preview_socket.setblocking(False)
+        except OSError as exc:
+            if self.preview_socket is not None:
+                self.preview_socket.close()
+            self.preview_socket = None
+            print(f"[game] in-game camera preview unavailable: {exc}")
         self.t = 0.0
         self.skyline = [(i * 150 - 40, 90 + (i * 53) % 150, 150 + (i * 97) % 260) for i in range(15)]
 
@@ -1265,8 +1277,28 @@ class Game:
             return f"{int(round(v * 100))}%"
         return str(v)
 
+    # ------------------------------------------------------------- camera preview
+    def poll_camera_preview(self):
+        """Keep only the newest JPEG frame from the local vision process."""
+        if self.preview_socket is None:
+            return
+        newest = None
+        while True:
+            try:
+                newest, _ = self.preview_socket.recvfrom(65535)
+            except BlockingIOError:
+                break
+            except OSError:
+                return
+        if newest:
+            try:
+                self.camera_preview = pygame.image.load(io.BytesIO(newest)).convert()
+            except (pygame.error, ValueError):
+                pass
+
     # ------------------------------------------------------------- update
     def update(self, dt):
+        self.poll_camera_preview()
         now = time.time()
         self.t += dt
         if self.local:
@@ -1349,6 +1381,8 @@ class Game:
             self.draw()
         if not self.local:
             self.net.stop()
+        if self.preview_socket is not None:
+            self.preview_socket.close()
         pygame.quit()
 
     # ======================================================================
@@ -1746,8 +1780,14 @@ class Game:
         tx = X(1590, 270)
         rrect(s, (tx, 700, 270, 312), (*mix(th.bg, (0, 0, 0), .4), 235), 22, border=th.border)
         text(s, L["live"], 20, th.accent, (tx + 24, 722), bold=True)
-        rrect(s, (tx + 24, 756, 222, 170), mix(th.bg, th.accent, .12), 14)
-        blocky_figure(s, tx + 135, 880, .5, (r.lane_x - 1) * .6, th.avatar, th.accent2)
+        preview_rect = pygame.Rect(tx + 24, 756, 222, 170)
+        rrect(s, preview_rect, mix(th.bg, th.accent, .12), 14)
+        if self.camera_preview is not None:
+            preview = pygame.transform.smoothscale(self.camera_preview, preview_rect.size)
+            s.blit(preview, preview_rect.topleft)
+        else:
+            blocky_figure(s, tx + 135, 880, .5, (r.lane_x - 1) * .6, th.avatar, th.accent2)
+            text(s, "Waiting for camera…", 16, th.muted, (tx + 135, 910), "center")
         strong = self.tracking_strong
         text(s, L["strong"] if strong else L["lost"], 22, th.accent if strong else th.accent2,
              (tx + 24, 944), bold=True)
