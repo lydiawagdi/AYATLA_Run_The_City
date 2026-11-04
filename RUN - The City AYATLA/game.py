@@ -1292,7 +1292,8 @@ class Game:
                 return
         if newest:
             try:
-                self.camera_preview = pygame.image.load(io.BytesIO(newest)).convert()
+                decoded = pygame.image.load(io.BytesIO(newest)).convert()
+                self.camera_preview = pygame.transform.scale(decoded, (222, 170))
             except (pygame.error, ValueError):
                 pass
 
@@ -1783,8 +1784,7 @@ class Game:
         preview_rect = pygame.Rect(tx + 24, 756, 222, 170)
         rrect(s, preview_rect, mix(th.bg, th.accent, .12), 14)
         if self.camera_preview is not None:
-            preview = pygame.transform.smoothscale(self.camera_preview, preview_rect.size)
-            s.blit(preview, preview_rect.topleft)
+            s.blit(self.camera_preview, preview_rect.topleft)
         else:
             blocky_figure(s, tx + 135, 880, .5, (r.lane_x - 1) * .6, th.avatar, th.accent2)
             text(s, "Waiting for camera…", 16, th.muted, (tx + 135, 910), "center")
