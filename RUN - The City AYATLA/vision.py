@@ -1173,8 +1173,8 @@ def main():
     parser.add_argument("--templates", type=Path, default=TEMPLATE_DIR)
     parser.add_argument("--width", type=int, default=640, help="capture width (default: 640)")
     parser.add_argument("--height", type=int, default=480, help="capture height (default: 480)")
-    parser.add_argument("--pose-complexity", type=int, choices=(0, 1), default=1,
-                        help="Pose model complexity (default: 1 for accuracy)")
+    parser.add_argument("--pose-complexity", type=int, choices=(0, 1), default=0,
+                        help="Pose model complexity (0=Lite, faster; 1=Full, more detailed)")
     parser.add_argument("--hands-complexity", type=int, choices=(0, 1), default=0,
                         help="Hands model complexity (default: 0 for speed)")
     parser.add_argument("--max-hands", type=int, choices=(1, 2), default=1,
@@ -1224,6 +1224,9 @@ def main():
     stats_frames = 0
     stats_pose_seconds = 0.0
     stats_hands_seconds = 0.0
+    preview_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    preview_address = ("127.0.0.1", 5001)
+    preview_last_sent = 0.0
     if args.no_display:
         print("[vision] debug window disabled; press Ctrl+C to quit")
     else:
@@ -1388,10 +1391,27 @@ def main():
                 stats_pose_seconds = 0.0
                 stats_hands_seconds = 0.0
 
+            # Annotate once, then reuse the same image for the in-game preview
+            # and the optional standalone debug window.
+            draw_zones(frame, zones, squat_line, hands_up)
+            draw_debug(frame, pose_results, hand_results, fps, last_gesture, last_score,
+                       str(state.get("context", "")), body_detector.status)
+
+            # Send a compact JPEG preview at 8 FPS; the game receives it over a
+            # separate local UDP socket, so camera frames never burden the hub.
+            if now - preview_last_sent >= 0.125:
+                preview_small = cv2.resize(frame, (320, 240), interpolation=cv2.INTER_AREA)
+                encoded_ok, encoded = cv2.imencode(
+                    ".jpg", preview_small, [int(cv2.IMWRITE_JPEG_QUALITY), 58]
+                )
+                if encoded_ok:
+                    try:
+                        preview_sock.sendto(encoded.tobytes(), preview_address)
+                        preview_last_sent = now
+                    except OSError:
+                        pass
+
             if not args.no_display:
-                draw_zones(frame, zones, squat_line, hands_up)
-                draw_debug(frame, pose_results, hand_results, fps, last_gesture, last_score,
-                           str(state.get("context", "")), body_detector.status)
                 cv2.imshow("Game Vision Debug (q to quit)", frame)
                 if cv2.waitKey(1) & 0xFF == ord("q"):
                     break
@@ -1401,6 +1421,7 @@ def main():
             cap.release()
         pose.close()
         hands.close()
+        preview_sock.close()
         cv2.destroyAllWindows()
         hub.close()
 
