@@ -385,37 +385,79 @@ def starts_neutral(frames: Sequence[dict]) -> bool:
 # the same (repeat:true) so the game's lane can never get out of sync.
 # ---------------------------------------------------------------------------
 ZONE_NAMES = ("zone_left", "zone_center", "zone_right")
-ZONE_MAJORITY = 0.5        # Tune: share of the body that must be inside a third
-ZONE_STABLE_SECONDS = 0.15 # Tune: a new zone must hold this long (stops flicker on a line)
+ZONE_STABLE_SECONDS = 0.15
 ZONE_REPEAT_SECONDS = 1.0
-ZONE_FORGET_SECONDS = 1.0  # body missing this long -> zone unknown
+ZONE_FORGET_SECONDS = 1.0
+ZONE_HYSTERESIS = 0.035       # dead band around each third boundary
 
 
 class ZoneTracker:
     def __init__(self):
-        self.zone: Optional[int] = None     # 0 left, 1 center, 2 right
+        self.zone: Optional[int] = None
         self.candidate: Optional[int] = None
         self.since = 0.0
         self.last_send = 0.0
         self.last_seen = 0.0
-        self.shares = (0.0, 0.0, 0.0)       # share of the body in each third (debug)
+        self.shares = (0.0, 0.0, 0.0)
+
+    def _torso_center_x(self, landmarks) -> Optional[float]:
+        """Use shoulder/hip midpoints, not a majority vote over arms and legs."""
+        ids = POSE_LANDMARKS
+        pairs = (
+            (ids.LEFT_SHOULDER.value, ids.RIGHT_SHOULDER.value),
+            (ids.LEFT_HIP.value, ids.RIGHT_HIP.value),
+        )
+        centers = []
+        for left_id, right_id in pairs:
+            left, right = landmarks[left_id], landmarks[right_id]
+            if (getattr(left, "visibility", 1.0) >= 0.5
+                    and getattr(right, "visibility", 1.0) >= 0.5):
+                centers.append((float(left.x) + float(right.x)) / 2.0)
+        if not centers:
+            return None
+        return clamp(sum(centers) / len(centers), 0.0, 1.0)
+
+    def _wanted_zone(self, x: float) -> int:
+        left_edge = 1.0 / 3.0
+        right_edge = 2.0 / 3.0
+        if self.zone is None:
+            return 0 if x < left_edge else (1 if x < right_edge else 2)
+        if self.zone == 0:
+            if x <= left_edge + ZONE_HYSTERESIS:
+                return 0
+            return 2 if x > right_edge + ZONE_HYSTERESIS else 1
+        if self.zone == 2:
+            if x >= right_edge - ZONE_HYSTERESIS:
+                return 2
+            return 0 if x < left_edge - ZONE_HYSTERESIS else 1
+        if x < left_edge - ZONE_HYSTERESIS:
+            return 0
+        if x > right_edge + ZONE_HYSTERESIS:
+            return 2
+        return 1
 
     def update(self, landmarks, now: float) -> Optional[Tuple[str, bool]]:
         """Return (zone gesture name, repeat) when something should be sent."""
-        xs = [lm.x for lm in landmarks if getattr(lm, "visibility", 1.0) >= 0.5] if landmarks else []
-        if len(xs) < 3:
+        if not landmarks:
             if self.zone is not None and now - self.last_seen > ZONE_FORGET_SECONDS:
                 self.zone = self.candidate = None
             return None
-        self.last_seen = now
-        counts = [0, 0, 0]
-        for x in xs:
-            counts[0 if x < 1 / 3 else (1 if x < 2 / 3 else 2)] += 1
-        self.shares = tuple(c / len(xs) for c in counts)
-        best = max(range(3), key=lambda i: self.shares[i])
-        wanted = best if self.shares[best] > ZONE_MAJORITY else self.zone   # no majority: stay
-        if wanted is None:
+
+        xs = [lm.x for lm in landmarks if getattr(lm, "visibility", 1.0) >= 0.5]
+        if len(xs) >= 3:
+            counts = [0, 0, 0]
+            for x in xs:
+                counts[0 if x < 1 / 3 else (1 if x < 2 / 3 else 2)] += 1
+            self.shares = tuple(count / len(xs) for count in counts)
+
+        center_x = self._torso_center_x(landmarks)
+        if center_x is None:
+            if self.zone is not None and now - self.last_seen > ZONE_FORGET_SECONDS:
+                self.zone = self.candidate = None
             return None
+
+        self.last_seen = now
+        wanted = self._wanted_zone(center_x)
         if wanted != self.zone:
             if wanted != self.candidate:
                 self.candidate, self.since = wanted, now
@@ -423,12 +465,12 @@ class ZoneTracker:
                 self.zone, self.last_send = wanted, now
                 return ZONE_NAMES[wanted], False
             return None
+
         self.candidate = wanted
         if now - self.last_send >= ZONE_REPEAT_SECONDS:
             self.last_send = now
             return ZONE_NAMES[wanted], True
         return None
-
 
 def head_height(landmarks) -> Optional[float]:
     """Head position as a fraction of the picture height (0 = top), or None."""
@@ -1082,23 +1124,38 @@ class ObjectPowerUpDetector:
 
 def draw_zones(frame, zones: ZoneTracker, squat: Optional[SquatLine] = None,
                hands: Optional[HandsUpLine] = None):
-    """Thirds of the picture (current zone highlighted) and the squat / jump line."""
+    """Draw three equal vertical player lanes plus a clear top-third guide."""
     h, w = frame.shape[:2]
+    if zones.zone is not None:
+        overlay = frame.copy()
+        x0 = zones.zone * w // 3
+        x1 = (zones.zone + 1) * w // 3
+        cv2.rectangle(overlay, (x0, 0), (x1, h), (232, 123, 208), -1)
+        cv2.addWeighted(overlay, 0.12, frame, 0.88, 0, frame)
+
+    # The two vertical guides split the camera image into three equal lanes.
+    for i in (1, 2):
+        x = i * w // 3
+        cv2.line(frame, (x, 0), (x, h), (255, 140, 140), 2)
+
+    # Horizontal guide at exactly one-third of the camera image height.
+    top_third_y = h // 3
+    cv2.line(frame, (0, top_third_y), (w, top_third_y), (0, 220, 255), 2)
+    cv2.putText(frame, "TOP THIRD", (12, max(24, top_third_y - 9)),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 255), 2)
+
+    # Keep the gesture threshold visible too, but distinguish it from the
+    # top-third guide so players can tell the two references apart.
     if squat is not None:
         y = int(SQUAT_LINE * h)
         below = squat.head is not None and squat.head > SQUAT_LINE
         up = hands is not None and all(v is not None and v < SQUAT_LINE for v in hands.hands)
-        label = "SQUAT / JUMP LINE" + ("  - SQUAT" if below else "") + ("  - JUMP" if up else "")
+        label = "SQUAT / JUMP" + (" - SQUAT" if below else "") + (" - JUMP" if up else "")
         color = (107, 107, 255) if (below or up) else (166, 225, 92)
-        cv2.line(frame, (0, y), (w, y), color, 2)
-        cv2.putText(frame, label, (w - 430, y - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
-    if zones.zone is not None:
-        overlay = frame.copy()
-        x0 = zones.zone * w // 3
-        cv2.rectangle(overlay, (x0, 0), (x0 + w // 3, h), (232, 123, 208), -1)
-        cv2.addWeighted(overlay, 0.12, frame, 0.88, 0, frame)
-    for i in (1, 2):
-        cv2.line(frame, (i * w // 3, 0), (i * w // 3, h), (255, 140, 140), 2)
+        cv2.line(frame, (0, y), (w, y), color, 1)
+        cv2.putText(frame, label, (w - 300, max(18, y - 8)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 1)
+
     for i, name in enumerate(("LEFT", "CENTER", "RIGHT")):
         cv2.putText(frame, f"{name} {zones.shares[i] * 100:.0f}%", (i * w // 3 + 12, h - 16),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (240, 240, 240), 2)
@@ -1129,7 +1186,21 @@ def main():
     parser.add_argument("--camera", type=int, default=None, help="override settings.camera_index")
     parser.add_argument("--enable-object", action="store_true", help="enable optional HSV object power-up")
     parser.add_argument("--templates", type=Path, default=TEMPLATE_DIR)
+    parser.add_argument("--width", type=int, default=640, help="capture width (default: 640)")
+    parser.add_argument("--height", type=int, default=480, help="capture height (default: 480)")
+    parser.add_argument("--pose-complexity", type=int, choices=(0, 1), default=0,
+                        help="Pose model complexity (0=Lite, faster; 1=Full, more detailed)")
+    parser.add_argument("--hands-complexity", type=int, choices=(0, 1), default=0,
+                        help="Hands model complexity (default: 0 for speed)")
+    parser.add_argument("--max-hands", type=int, choices=(1, 2), default=1,
+                        help="maximum hands to track (default: 1)")
+    parser.add_argument("--no-display", action="store_true",
+                        help="disable the debug window to reduce CPU use (stop with Ctrl+C)")
+    parser.add_argument("--stats", action="store_true",
+                        help="print average pose/hand processing times every 5 seconds")
     args = parser.parse_args()
+    if args.width < 160 or args.height < 120:
+        parser.error("--width must be >= 160 and --height must be >= 120")
 
     shared = SharedState(camera_override=args.camera)
     hub = HubClient(shared, enabled=not args.no_hub)
@@ -1147,11 +1218,11 @@ def main():
     object_detector = ObjectPowerUpDetector(args.templates) if args.enable_object else None
 
     pose = mp.solutions.pose.Pose(
-        static_image_mode=False, model_complexity=1, smooth_landmarks=True,
+        static_image_mode=False, model_complexity=args.pose_complexity, smooth_landmarks=True,
         enable_segmentation=False, min_detection_confidence=0.55, min_tracking_confidence=0.55,
     )
     hands = mp.solutions.hands.Hands(
-        static_image_mode=False, max_num_hands=2, model_complexity=1,
+        static_image_mode=False, max_num_hands=args.max_hands, model_complexity=args.hands_complexity,
         min_detection_confidence=0.55, min_tracking_confidence=0.55,
     )
 
@@ -1164,7 +1235,17 @@ def main():
     last_score = 0.0
     fps = 0.0
     last_frame_time = time.monotonic()
-    print("[vision] press q in the debug window to quit")
+    stats_started = last_frame_time
+    stats_frames = 0
+    stats_pose_seconds = 0.0
+    stats_hands_seconds = 0.0
+    preview_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    preview_address = ("127.0.0.1", 5001)
+    preview_last_sent = 0.0
+    if args.no_display:
+        print("[vision] debug window disabled; press Ctrl+C to quit")
+    else:
+        print("[vision] press q in the debug window to quit")
 
     try:
         while True:
@@ -1185,8 +1266,11 @@ def main():
                 found_since = None
                 active_camera = requested_camera
                 cap = cv2.VideoCapture(active_camera)
-                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+                # A one-frame capture buffer avoids processing stale frames when
+                # MediaPipe briefly falls behind the camera.
+                cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, args.width)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, args.height)
                 if not cap.isOpened():
                     print(f"[vision] cannot open camera {active_camera}; retrying")
                     cap.release()
@@ -1210,9 +1294,16 @@ def main():
             frame = cv2.flip(frame, 1)
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             rgb.flags.writeable = False
+            pose_started = time.perf_counter()
             pose_results = pose.process(rgb)
+            pose_elapsed = time.perf_counter() - pose_started
+            hands_started = time.perf_counter()
             hand_results = hands.process(rgb)
+            hands_elapsed = time.perf_counter() - hands_started
             rgb.flags.writeable = True
+            stats_frames += 1
+            stats_pose_seconds += pose_elapsed
+            stats_hands_seconds += hands_elapsed
 
             pose_landmarks = pose_results.pose_landmarks.landmark if pose_results.pose_landmarks else None
             body_seen = pose_landmarks is not None
@@ -1303,18 +1394,56 @@ def main():
             last_frame_time = now
             instantaneous_fps = 1.0 / dt
             fps = instantaneous_fps if fps == 0 else (0.9 * fps + 0.1 * instantaneous_fps)
+            if args.stats and now - stats_started >= 5.0:
+                elapsed = max(now - stats_started, 1e-6)
+                print(
+                    f"[vision stats] {stats_frames / elapsed:.1f} FPS | "
+                    f"Pose {stats_pose_seconds / max(stats_frames, 1) * 1000:.1f} ms | "
+                    f"Hands {stats_hands_seconds / max(stats_frames, 1) * 1000:.1f} ms"
+                )
+                stats_started = now
+                stats_frames = 0
+                stats_pose_seconds = 0.0
+                stats_hands_seconds = 0.0
+
+            # Annotate once, then reuse the same image for the in-game preview
+            # and the optional standalone debug window.
             draw_zones(frame, zones, squat_line, hands_up)
             draw_debug(frame, pose_results, hand_results, fps, last_gesture, last_score,
                        str(state.get("context", "")), body_detector.status)
-            cv2.imshow("Game Vision Debug (q to quit)", frame)
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
+
+            # Send the real, annotated webcam image to the game at 8 FPS.
+            # Keep each UDP datagram safely below the platform's ~65 KB limit;
+            # oversized JPEGs are silently dropped by some Windows socket stacks.
+            if now - preview_last_sent >= 0.125:
+                preview_small = cv2.resize(frame, (256, 192), interpolation=cv2.INTER_AREA)
+                encoded_ok, encoded = cv2.imencode(
+                    ".jpg", preview_small, [int(cv2.IMWRITE_JPEG_QUALITY), 45]
+                )
+                if encoded_ok and len(encoded) > 60000:
+                    encoded_ok, encoded = cv2.imencode(
+                        ".jpg", preview_small, [int(cv2.IMWRITE_JPEG_QUALITY), 28]
+                    )
+                if encoded_ok and len(encoded) <= 60000:
+                    try:
+                        preview_sock.sendto(encoded.tobytes(), preview_address)
+                        preview_last_sent = now
+                    except OSError as exc:
+                        if not getattr(main, "_preview_send_warning", False):
+                            print(f"[vision] in-game camera preview send failed: {exc}")
+                            main._preview_send_warning = True
+
+            if not args.no_display:
+                cv2.imshow("Game Vision Debug (q to quit)", frame)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    break
 
     finally:
         if cap is not None:
             cap.release()
         pose.close()
         hands.close()
+        preview_sock.close()
         cv2.destroyAllWindows()
         hub.close()
 
