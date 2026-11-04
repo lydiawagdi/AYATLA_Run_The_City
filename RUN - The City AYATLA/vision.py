@@ -1124,23 +1124,38 @@ class ObjectPowerUpDetector:
 
 def draw_zones(frame, zones: ZoneTracker, squat: Optional[SquatLine] = None,
                hands: Optional[HandsUpLine] = None):
-    """Thirds of the picture (current zone highlighted) and the squat / jump line."""
+    """Draw three equal vertical player lanes plus a clear top-third guide."""
     h, w = frame.shape[:2]
+    if zones.zone is not None:
+        overlay = frame.copy()
+        x0 = zones.zone * w // 3
+        x1 = (zones.zone + 1) * w // 3
+        cv2.rectangle(overlay, (x0, 0), (x1, h), (232, 123, 208), -1)
+        cv2.addWeighted(overlay, 0.12, frame, 0.88, 0, frame)
+
+    # The two vertical guides split the camera image into three equal lanes.
+    for i in (1, 2):
+        x = i * w // 3
+        cv2.line(frame, (x, 0), (x, h), (255, 140, 140), 2)
+
+    # Horizontal guide at exactly one-third of the camera image height.
+    top_third_y = h // 3
+    cv2.line(frame, (0, top_third_y), (w, top_third_y), (0, 220, 255), 2)
+    cv2.putText(frame, "TOP THIRD", (12, max(24, top_third_y - 9)),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 220, 255), 2)
+
+    # Keep the gesture threshold visible too, but distinguish it from the
+    # top-third guide so players can tell the two references apart.
     if squat is not None:
         y = int(SQUAT_LINE * h)
         below = squat.head is not None and squat.head > SQUAT_LINE
         up = hands is not None and all(v is not None and v < SQUAT_LINE for v in hands.hands)
-        label = "SQUAT / JUMP LINE" + ("  - SQUAT" if below else "") + ("  - JUMP" if up else "")
+        label = "SQUAT / JUMP" + (" - SQUAT" if below else "") + (" - JUMP" if up else "")
         color = (107, 107, 255) if (below or up) else (166, 225, 92)
-        cv2.line(frame, (0, y), (w, y), color, 2)
-        cv2.putText(frame, label, (w - 430, y - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
-    if zones.zone is not None:
-        overlay = frame.copy()
-        x0 = zones.zone * w // 3
-        cv2.rectangle(overlay, (x0, 0), (x0 + w // 3, h), (232, 123, 208), -1)
-        cv2.addWeighted(overlay, 0.12, frame, 0.88, 0, frame)
-    for i in (1, 2):
-        cv2.line(frame, (i * w // 3, 0), (i * w // 3, h), (255, 140, 140), 2)
+        cv2.line(frame, (0, y), (w, y), color, 1)
+        cv2.putText(frame, label, (w - 300, max(18, y - 8)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 1)
+
     for i, name in enumerate(("LEFT", "CENTER", "RIGHT")):
         cv2.putText(frame, f"{name} {zones.shares[i] * 100:.0f}%", (i * w // 3 + 12, h - 16),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, (240, 240, 240), 2)
@@ -1397,19 +1412,26 @@ def main():
             draw_debug(frame, pose_results, hand_results, fps, last_gesture, last_score,
                        str(state.get("context", "")), body_detector.status)
 
-            # Send a compact JPEG preview at 8 FPS; the game receives it over a
-            # separate local UDP socket, so camera frames never burden the hub.
+            # Send the real, annotated webcam image to the game at 8 FPS.
+            # Keep each UDP datagram safely below the platform's ~65 KB limit;
+            # oversized JPEGs are silently dropped by some Windows socket stacks.
             if now - preview_last_sent >= 0.125:
-                preview_small = cv2.resize(frame, (320, 240), interpolation=cv2.INTER_AREA)
+                preview_small = cv2.resize(frame, (256, 192), interpolation=cv2.INTER_AREA)
                 encoded_ok, encoded = cv2.imencode(
-                    ".jpg", preview_small, [int(cv2.IMWRITE_JPEG_QUALITY), 58]
+                    ".jpg", preview_small, [int(cv2.IMWRITE_JPEG_QUALITY), 45]
                 )
-                if encoded_ok:
+                if encoded_ok and len(encoded) > 60000:
+                    encoded_ok, encoded = cv2.imencode(
+                        ".jpg", preview_small, [int(cv2.IMWRITE_JPEG_QUALITY), 28]
+                    )
+                if encoded_ok and len(encoded) <= 60000:
                     try:
                         preview_sock.sendto(encoded.tobytes(), preview_address)
                         preview_last_sent = now
-                    except OSError:
-                        pass
+                    except OSError as exc:
+                        if not getattr(main, "_preview_send_warning", False):
+                            print(f"[vision] in-game camera preview send failed: {exc}")
+                            main._preview_send_warning = True
 
             if not args.no_display:
                 cv2.imshow("Game Vision Debug (q to quit)", frame)
