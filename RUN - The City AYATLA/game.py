@@ -1777,17 +1777,18 @@ class Game:
             draw_icon(s, "jump", bx + 62, 956, 54, th.accent, 4)
             text(s, self.toast["title"], 34, th.text, (bx + 120, 934), bold=True)
             text(s, self.toast["sub"], 24, th.muted, (bx + 120, 976))
-        # live tracking box (no camera image is available)
+        # Live camera preview: show the actual webcam image, never the game avatar.
         tx = X(1590, 270)
         rrect(s, (tx, 700, 270, 312), (*mix(th.bg, (0, 0, 0), .4), 235), 22, border=th.border)
-        text(s, L["live"], 20, th.accent, (tx + 24, 722), bold=True)
-        preview_rect = pygame.Rect(tx + 24, 756, 222, 170)
-        rrect(s, preview_rect, mix(th.bg, th.accent, .12), 14)
+        text(s, "LIVE CAMERA", 20, th.accent, (tx + 24, 722), bold=True)
+        preview_rect = pygame.Rect(tx + 24, 756, 222, 166)
+        rrect(s, preview_rect, mix(th.bg, th.accent, .12), 10)
         if self.camera_preview is not None:
             s.blit(self.camera_preview, preview_rect.topleft)
+            pygame.draw.rect(s, th.accent, preview_rect, width=2, border_radius=10)
         else:
-            blocky_figure(s, tx + 135, 880, .5, (r.lane_x - 1) * .6, th.avatar, th.accent2)
-            text(s, "Waiting for camera…", 16, th.muted, (tx + 135, 910), "center")
+            text(s, "Waiting for webcam feed…", 16, th.muted,
+                 preview_rect.center, "center")
         strong = self.tracking_strong
         text(s, L["strong"] if strong else L["lost"], 22, th.accent if strong else th.accent2,
              (tx + 24, 944), bold=True)
