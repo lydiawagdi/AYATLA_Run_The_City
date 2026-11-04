@@ -385,37 +385,79 @@ def starts_neutral(frames: Sequence[dict]) -> bool:
 # the same (repeat:true) so the game's lane can never get out of sync.
 # ---------------------------------------------------------------------------
 ZONE_NAMES = ("zone_left", "zone_center", "zone_right")
-ZONE_MAJORITY = 0.5        # Tune: share of the body that must be inside a third
-ZONE_STABLE_SECONDS = 0.15 # Tune: a new zone must hold this long (stops flicker on a line)
+ZONE_STABLE_SECONDS = 0.15
 ZONE_REPEAT_SECONDS = 1.0
-ZONE_FORGET_SECONDS = 1.0  # body missing this long -> zone unknown
+ZONE_FORGET_SECONDS = 1.0
+ZONE_HYSTERESIS = 0.035       # dead band around each third boundary
 
 
 class ZoneTracker:
     def __init__(self):
-        self.zone: Optional[int] = None     # 0 left, 1 center, 2 right
+        self.zone: Optional[int] = None
         self.candidate: Optional[int] = None
         self.since = 0.0
         self.last_send = 0.0
         self.last_seen = 0.0
-        self.shares = (0.0, 0.0, 0.0)       # share of the body in each third (debug)
+        self.shares = (0.0, 0.0, 0.0)
+
+    def _torso_center_x(self, landmarks) -> Optional[float]:
+        """Use shoulder/hip midpoints, not a majority vote over arms and legs."""
+        ids = POSE_LANDMARKS
+        pairs = (
+            (ids.LEFT_SHOULDER.value, ids.RIGHT_SHOULDER.value),
+            (ids.LEFT_HIP.value, ids.RIGHT_HIP.value),
+        )
+        centers = []
+        for left_id, right_id in pairs:
+            left, right = landmarks[left_id], landmarks[right_id]
+            if (getattr(left, "visibility", 1.0) >= 0.5
+                    and getattr(right, "visibility", 1.0) >= 0.5):
+                centers.append((float(left.x) + float(right.x)) / 2.0)
+        if not centers:
+            return None
+        return clamp(sum(centers) / len(centers), 0.0, 1.0)
+
+    def _wanted_zone(self, x: float) -> int:
+        left_edge = 1.0 / 3.0
+        right_edge = 2.0 / 3.0
+        if self.zone is None:
+            return 0 if x < left_edge else (1 if x < right_edge else 2)
+        if self.zone == 0:
+            if x <= left_edge + ZONE_HYSTERESIS:
+                return 0
+            return 2 if x > right_edge + ZONE_HYSTERESIS else 1
+        if self.zone == 2:
+            if x >= right_edge - ZONE_HYSTERESIS:
+                return 2
+            return 0 if x < left_edge - ZONE_HYSTERESIS else 1
+        if x < left_edge - ZONE_HYSTERESIS:
+            return 0
+        if x > right_edge + ZONE_HYSTERESIS:
+            return 2
+        return 1
 
     def update(self, landmarks, now: float) -> Optional[Tuple[str, bool]]:
         """Return (zone gesture name, repeat) when something should be sent."""
-        xs = [lm.x for lm in landmarks if getattr(lm, "visibility", 1.0) >= 0.5] if landmarks else []
-        if len(xs) < 3:
+        if not landmarks:
             if self.zone is not None and now - self.last_seen > ZONE_FORGET_SECONDS:
                 self.zone = self.candidate = None
             return None
-        self.last_seen = now
-        counts = [0, 0, 0]
-        for x in xs:
-            counts[0 if x < 1 / 3 else (1 if x < 2 / 3 else 2)] += 1
-        self.shares = tuple(c / len(xs) for c in counts)
-        best = max(range(3), key=lambda i: self.shares[i])
-        wanted = best if self.shares[best] > ZONE_MAJORITY else self.zone   # no majority: stay
-        if wanted is None:
+
+        xs = [lm.x for lm in landmarks if getattr(lm, "visibility", 1.0) >= 0.5]
+        if len(xs) >= 3:
+            counts = [0, 0, 0]
+            for x in xs:
+                counts[0 if x < 1 / 3 else (1 if x < 2 / 3 else 2)] += 1
+            self.shares = tuple(count / len(xs) for count in counts)
+
+        center_x = self._torso_center_x(landmarks)
+        if center_x is None:
+            if self.zone is not None and now - self.last_seen > ZONE_FORGET_SECONDS:
+                self.zone = self.candidate = None
             return None
+
+        self.last_seen = now
+        wanted = self._wanted_zone(center_x)
         if wanted != self.zone:
             if wanted != self.candidate:
                 self.candidate, self.since = wanted, now
@@ -423,12 +465,12 @@ class ZoneTracker:
                 self.zone, self.last_send = wanted, now
                 return ZONE_NAMES[wanted], False
             return None
+
         self.candidate = wanted
         if now - self.last_send >= ZONE_REPEAT_SECONDS:
             self.last_send = now
             return ZONE_NAMES[wanted], True
         return None
-
 
 def head_height(landmarks) -> Optional[float]:
     """Head position as a fraction of the picture height (0 = top), or None."""
