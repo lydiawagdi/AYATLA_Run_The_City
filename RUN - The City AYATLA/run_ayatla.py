@@ -147,6 +147,13 @@ def main():
     ap.add_argument("--enable-object", action="store_true", help="vision: object power-up")
     ap.add_argument("--keys", action="store_true", help="game: keyboard fakes as well")
     ap.add_argument("--verbose", action="store_true", help="show start-up noise too")
+    ap.add_argument("--width", type=int, default=None, help="vision capture width (default: 640)")
+    ap.add_argument("--height", type=int, default=None, help="vision capture height (default: 480)")
+    ap.add_argument("--max-hands", type=int, choices=(1, 2), default=None, help="vision: maximum hands")
+    ap.add_argument("--pose-complexity", type=int, choices=(0, 1), default=None, help="vision: pose model complexity")
+    ap.add_argument("--hands-complexity", type=int, choices=(0, 1), default=None, help="vision: hands model complexity")
+    ap.add_argument("--no-display", action="store_true", help="vision: disable debug window")
+    ap.add_argument("--stats", action="store_true", help="vision: print processing timings")
     args = ap.parse_args()
 
     os.system("")                  # turns on ANSI colours in old Windows consoles
@@ -157,6 +164,14 @@ def main():
         vision_args += ["--camera", str(args.camera)]
     if args.enable_object:
         vision_args.append("--enable-object")
+    for option in ("width", "height", "max_hands", "pose_complexity", "hands_complexity"):
+        value = getattr(args, option)
+        if value is not None:
+            vision_args += ["--" + option.replace("_", "-"), str(value)]
+    if args.no_display:
+        vision_args.append("--no-display")
+    if args.stats:
+        vision_args.append("--stats")
 
     hub = Managed("hub", "hub.py", ready_text="Listening on", verbose=args.verbose)
     clients = [Managed("vision", "vision.py", vision_args, verbose=args.verbose)]
