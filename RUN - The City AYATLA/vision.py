@@ -1131,8 +1131,10 @@ def main():
     parser.add_argument("--templates", type=Path, default=TEMPLATE_DIR)
     parser.add_argument("--width", type=int, default=640, help="capture width (default: 640)")
     parser.add_argument("--height", type=int, default=480, help="capture height (default: 480)")
-    parser.add_argument("--model-complexity", type=int, choices=(0, 1), default=0,
-                        help="MediaPipe model complexity: 0 is faster, 1 may be more accurate")
+    parser.add_argument("--pose-complexity", type=int, choices=(0, 1), default=1,
+                        help="Pose model complexity (default: 1 for accuracy)")
+    parser.add_argument("--hands-complexity", type=int, choices=(0, 1), default=0,
+                        help="Hands model complexity (default: 0 for speed)")
     parser.add_argument("--max-hands", type=int, choices=(1, 2), default=1,
                         help="maximum hands to track (default: 1)")
     parser.add_argument("--no-display", action="store_true",
@@ -1159,11 +1161,11 @@ def main():
     object_detector = ObjectPowerUpDetector(args.templates) if args.enable_object else None
 
     pose = mp.solutions.pose.Pose(
-        static_image_mode=False, model_complexity=args.model_complexity, smooth_landmarks=True,
+        static_image_mode=False, model_complexity=args.pose_complexity, smooth_landmarks=True,
         enable_segmentation=False, min_detection_confidence=0.55, min_tracking_confidence=0.55,
     )
     hands = mp.solutions.hands.Hands(
-        static_image_mode=False, max_num_hands=args.max_hands, model_complexity=args.model_complexity,
+        static_image_mode=False, max_num_hands=args.max_hands, model_complexity=args.hands_complexity,
         min_detection_confidence=0.55, min_tracking_confidence=0.55,
     )
 
