@@ -1,2 +1,9 @@
-# AYATLA_Run_The_City
-The HCI Project of AYATLA, a game that detects motion and tracks movement to replicate it with the character's movement.
+To ensure that the program runs, make sure to have a functioning laptop camera as well as your Bluetooth turned on. Pair your device before launching the game.
+
+To launch the game "RUN - The City," launch the program "AYATLA.bat." Any and all required libraries and such will be installed automatically. If Python is not found, or an older version is found, it should prompt you to download the version used for this project.
+
+Incase of any issues with libraries not being properly installed, the program "Setup.bat" exists.
+
+If calibrations are off, the app "Recorder.bat" can be interacted with and have the recordings of the user attempting said movements to interact with the game properly.
+
+Have fun
