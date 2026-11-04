@@ -1293,7 +1293,7 @@ class Game:
         if newest:
             try:
                 decoded = pygame.image.load(io.BytesIO(newest)).convert()
-                self.camera_preview = pygame.transform.scale(decoded, (222, 170))
+                self.camera_preview = pygame.transform.scale(decoded, (222, 166))
             except (pygame.error, ValueError):
                 pass
 
