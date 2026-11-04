@@ -1,0 +1,18 @@
+{
+  "id": "guest",
+  "display_name": "Guest",
+  "best_score": 0,
+  "difficulty": "normal",
+  "avatar_color": "#8C8CFF",
+  "theme_accent": "#8C8CFF",
+  "theme_accent_2": "#E87BD0",
+  "theme_bg": "#0B0B14",
+  "settings": {
+    "sensitivity": 0.6,
+    "hold_time": 2.0,
+    "volume": 0.7,
+    "camera": "FaceTime HD Camera",
+    "camera_index": 0,
+    "left_handed": false
+  }
+}

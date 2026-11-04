@@ -1,0 +1,216 @@
+
+===== started 2026-11-04 01:47:13 =====
+[vision] loaded 41 body templates
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+[vision] connected to hub at 127.0.0.1:5000
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793749634.814480   41040 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793749634.832227   41040 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793749634.905474   39468 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793749634.937946   39468 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793749666.428472   27924 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 02:15:11 =====
+[vision] loaded 0 body templates
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+[vision] connected to hub at 127.0.0.1:5000
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793751312.088352   41632 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751312.109118   41632 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751312.172345   37928 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751312.199089   37928 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751338.553852   47264 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 02:21:38 =====
+[vision] loaded 17 body templates
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for [vision] connected to hub at 127.0.0.1:5000CPU.
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793751699.746729   57876 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751699.766077   22424 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751699.833121   18892 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751699.859698   54448 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793751700.281994   55328 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 02:42:20 =====
+[vision] loaded 17 body templates
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+[vision] press q in the debug window to quit
+[vision] connected to hub at 127.0.0.1:5000
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793752941.456401   58904 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793752941.480719   57776 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793752941.538816   13064 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793752941.571816   54296 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793752953.431460   22832 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 02:50:31 =====
+[vision] loaded 32 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 180 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793753432.287781   38088 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753432.307570   38088 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753432.376058   30548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753432.402799   30548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753432.833474   37408 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 02:58:15 =====
+[vision] loaded 31 body templates
+[vision] loaded 180 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm']
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793753896.967784   30548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753896.985425   30548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753897.048631   36684 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753897.077148   36684 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793753897.492140   36684 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:03:31 =====
+[vision] loaded 31 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+[vision] press q in the debug window to quit
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793754212.219638   56664 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754212.234592   56664 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754212.299967   11992 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754212.327511   54688 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754212.778342   11992 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:10:45 =====
+[vision] loaded 16 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793754646.805530   16632 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754646.830717   53028 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754646.899653   13500 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754646.933888   13500 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754661.640036   26836 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:13:32 =====
+[vision] loaded 16 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.[vision] press q in the debug window to quit
+
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793754813.813573   56112 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754813.838891   56428 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754813.908738   35372 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754813.935182   35372 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793754814.359679   56264 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:19:07 =====
+[vision] loaded 16 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793755148.359195   39144 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755148.373927   39144 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755148.455413   28696 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755148.486725    4068 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755148.924377    8704 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:25:31 =====
+[vision] loaded 8 body templates
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+[vision] connected to hub at 127.0.0.1:5000
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793755532.372361   11384 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755532.388391   11384 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755532.477169   58100 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755532.511789   57128 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755539.072489   54496 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:31:58 =====
+[vision] loaded 8 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793755919.805156   38852 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755919.825301   38852 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755919.890145   23548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755919.926020   23548 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793755920.368604   49012 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:36:31 =====
+[vision] loaded 8 body templates
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793756192.964689   24464 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756192.988761   24464 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756193.058150   30196 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756193.091511    7724 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756193.591851    5532 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:42:30 =====
+[vision] loaded 8 body templates
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793756551.407735   23636 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756551.427983   23636 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756551.492700   44096 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756551.520342   34740 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756551.919439    8048 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:44:35 =====
+[vision] loaded 8 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793756677.000842   35608 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756677.030450   29552 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756677.096173   30856 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756677.127083   30856 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793756677.741690   29396 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.
+
+===== started 2026-11-04 03:57:50 =====
+[vision] loaded 8 body templates
+[vision] connected to hub at 127.0.0.1:5000
+[vision] loaded 230 recorded frames for ['fingers_1', 'fingers_2', 'fingers_3', 'fingers_4', 'ok_sign', 'open_palm', 'thumbs_up']
+[vision] loaded 50 recorded frames for ['hold_x']
+[vision] press q in the debug window to quit
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1793757471.419818   55284 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793757471.442747   55284 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793757471.506208   57736 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793757471.542185   55848 inference_feedback_manager.cc:114] Feedback manager requires a model with a single signature inference. Disabling support for feedback tensors.
+W0000 00:00:1793757472.038282   47540 landmark_projection_calculator.cc:186] Using NORM_RECT without IMAGE_DIMENSIONS is only supported for the square ROI. Provide IMAGE_DIMENSIONS or use PROJECTION_MATRIX.

@@ -1,0 +1,175 @@
+
+===== started 2026-11-04 01:47:13 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 6 devices seen, no match yet (12 s left)
+[bt] 6 devices seen, no match yet (9 s left)
+[bt] 6 devices seen, no match yet (6 s left)
+[bt] 5 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 5 devices seen, no match yet (12 s left)
+[bt] 6 devices seen, no match yet (9 s left)
+[bt] 4 devices seen, no match yet (6 s left)
+[bt] 6 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 5 devices seen, no match yet (12 s left)
+[bt] 5 devices seen, no match yet (9 s left)
+[bt] 6 devices seen, no match yet (6 s left)
+[bt] mode is 'guest': stopping, forgetting match.
+
+===== started 2026-11-04 02:15:11 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 02:21:38 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 02:42:20 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 02:50:31 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 6 devices seen, no match yet (12 s left)
+[bt] 6 devices seen, no match yet (9 s left)
+[bt] 6 devices seen, no match yet (6 s left)
+[bt] 5 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 6 devices seen, no match yet (12 s left)
+[bt] 5 devices seen, no match yet (9 s left)
+[bt] 5 devices seen, no match yet (6 s left)
+[bt] 5 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+
+===== started 2026-11-04 02:58:15 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 5 devices seen, no match yet (12 s left)
+[bt] 6 devices seen, no match yet (9 s left)
+[bt] mode is 'guest': stopping, forgetting match.
+
+===== started 2026-11-04 03:03:31 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 03:10:45 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 03:13:32 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 03:19:07 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (1 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 6 devices seen, no match yet (12 s left)
+[bt] 6 devices seen, no match yet (9 s left)
+[bt] 4 devices seen, no match yet (6 s left)
+[bt] 5 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+[bt] starting search (1 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 5 devices seen, no match yet (12 s left)
+[bt] 4 devices seen, no match yet (9 s left)
+[bt] 2 devices seen, no match yet (6 s left)
+[bt] 5 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+[bt] starting search (1 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 5 devices seen, no match yet (12 s left)
+[bt] 4 devices seen, no match yet (9 s left)
+[bt] 3 devices seen, no match yet (6 s left)
+[bt] 3 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+[bt] starting search (1 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 1 devices seen, no match yet (12 s left)
+[bt] 1 devices seen, no match yet (9 s left)
+[bt] 4 devices seen, no match yet (6 s left)
+[bt] 0 devices seen, no match yet (3 s left)
+[bt] no registered device within 15 s.
+[bt] -> {"type": "bt_status", "status": "not_found"}
+[bt] -> {"type": "user", "id": null}
+
+===== started 2026-11-04 03:25:31 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 03:31:58 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 03:36:31 =====
+[bt] connected to hub at 127.0.0.1:5000
+
+===== started 2026-11-04 03:42:30 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (1 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] 4 devices seen, no match yet (12 s left)
+[bt] 3 devices seen, no match yet (9 s left)
+[bt] 4 devices seen, no match yet (6 s left)
+[bt] registration: listing nearby devices...
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -41, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -69, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -83, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -41, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -69, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -72, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -76, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -41, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -69, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -74, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -78, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -41, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -69, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -74, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -74, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -48, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -73, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -78, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -56, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -73, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -78, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -62, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -72, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -78, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -59, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -69, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -72, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -78, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -56, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -70, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -73, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -74, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": null, "rssi": -54, "registered": null}, {"address": "26:20:0E:60:DF:89", "name": null, "rssi": -70, "registered": null}, {"address": "24:40:86:58:C7:44", "name": null, "rssi": -70, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": null, "rssi": -73, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] registration stopped.
+[bt] registered 68:44:00:88:2A:FA (no name) as user_01
+[bt] -> {"type": "bt_devices", "status": "registered", "devices": [], "id": "user_01", "name": "Player 1", "matched_by": "mac"}
+[bt] -> {"type": "bt_status", "status": "found"}
+[bt] -> {"type": "user", "id": "user_01"}
+
+===== started 2026-11-04 03:44:35 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (2 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] matched user_01 (RSSI -58 dBm)
+[bt] -> {"type": "bt_status", "status": "found"}
+[bt] -> {"type": "user", "id": "user_01"}
+
+===== started 2026-11-04 03:57:50 =====
+[bt] connected to hub at 127.0.0.1:5000
+[bt] starting search (0 registered users)...
+[bt] -> {"type": "bt_status", "status": "scanning"}
+[bt] registration: listing nearby devices...
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -60, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -75, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -79, "registered": null}, {"address": "FE:F2:D3:EE:42:CC", "name": null, "paired": false, "rssi": -85, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -54, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -71, "registered": null}, {"address": "C8:7B:9A:F1:8B:6A", "name": "Buds2", "paired": false, "rssi": -75, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -77, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -54, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -70, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -72, "registered": null}, {"address": "C8:7B:9A:F1:8B:6A", "name": "Buds2", "paired": false, "rssi": -74, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -49, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -69, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -72, "registered": null}, {"address": "C8:7B:9A:F1:8B:6A", "name": "Buds2", "paired": false, "rssi": -75, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -48, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -69, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -71, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -72, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -44, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -68, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -72, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -72, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -45, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -70, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -71, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -71, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -45, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -69, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -72, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -73, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -45, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -69, "registered": null}, {"address": "34:09:65:B1:CC:18", "name": null, "paired": false, "rssi": -73, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -74, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] -> {"type": "bt_devices", "status": "scanning", "devices": [{"address": "68:44:00:88:2A:FA", "name": "soundcore Life Q30_BLE", "paired": false, "rssi": -47, "registered": null}, {"address": "66:BF:EA:F9:B7:7B", "name": "Anas", "paired": true, "rssi": -69, "registered": null}, {"address": "C8:7B:9A:F1:8B:6A", "name": "Buds2", "paired": false, "rssi": -72, "registered": null}, {"address": "3C:8B:32:5C:90:89", "name": "Mohamed G.'s A52s", "paired": false, "rssi": -74, "registered": null}], "nearest": "68:44:00:88:2A:FA"}
+[bt] registration stopped.
+[bt] registered 66:BF:EA:F9:B7:7B (Anas) as user_01
+[bt] -> {"type": "bt_devices", "status": "registered", "devices": [], "new": true, "id": "user_01", "name": "Anas", "matched_by": "name"}
+[bt] -> {"type": "bt_status", "status": "found", "name": "Anas"}
+[bt] -> {"type": "user", "id": "user_01"}

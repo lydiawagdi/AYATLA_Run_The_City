@@ -1,0 +1,18 @@
+{
+  "id": "user_01",
+  "display_name": "Anas",
+  "best_score": 2185,
+  "difficulty": "normal",
+  "avatar_color": "#4FE3C1",
+  "theme_accent": "#3DDBC0",
+  "theme_accent_2": "#FFB454",
+  "theme_bg": "#08121A",
+  "settings": {
+    "sensitivity": 0.6,
+    "hold_time": 2.0,
+    "volume": 0.7,
+    "camera": "FaceTime HD Camera",
+    "camera_index": 0,
+    "left_handed": false
+  }
+}

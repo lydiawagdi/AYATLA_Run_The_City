@@ -1,0 +1,30 @@
+{
+  "id": "user_02",
+  "display_name": "Omar",
+  "best_score": 15300,
+  "difficulty": "hard",
+  "avatar_color": "#FF9F5A",
+  "theme_accent": "#FF8A4C",
+  "theme_accent_2": "#5CE1E6",
+  "theme_bg": "#150C10",
+  "settings": {
+    "sensitivity": 0.5,
+    "hold_time": 1.5,
+    "volume": 0.4,
+    "camera": "USB Webcam",
+    "camera_index": 1,
+    "left_handed": true
+  },
+  "gesture_overrides": {
+    "GAME_OVER": { "ok_sign": "restart" }
+  },
+  "screen_overrides": {
+    "GAME_OVER": {
+      "cards": [
+        { "icon": "palm", "gesture": "Open palm", "result": "Restart" },
+        { "icon": "ok", "gesture": "OK sign (quick restart)", "result": "Restart" },
+        { "icon": "x", "gesture": "Hold an X", "result": "Quit or go back" }
+      ]
+    }
+  }
+}

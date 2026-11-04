@@ -1,0 +1,327 @@
+{
+  "gesture_labels": {
+    "jump":            { "label": "Jump",         "detected": "Jump detected" },
+    "squat":           { "label": "Squat",        "detected": "Squat detected" },
+    "lean_left":       { "label": "Lean left",    "detected": "Lean left detected" },
+    "lean_right":      { "label": "Lean right",   "detected": "Lean right detected" },
+    "open_palm":       { "label": "Open palm",    "detected": "Open palm detected" },
+    "thumbs_up":       { "label": "Thumbs up",    "detected": "Thumbs up detected" },
+    "zone_left":       { "label": "Left third",   "detected": "Moved left" },
+    "zone_center":     { "label": "Middle third", "detected": "Moved to the middle" },
+    "zone_right":      { "label": "Right third",  "detected": "Moved right" },
+    "fingers_1":       { "label": "1 finger",     "detected": "1 finger detected" },
+    "fingers_2":       { "label": "2 fingers",    "detected": "2 fingers detected" },
+    "fingers_3":       { "label": "3 fingers",    "detected": "3 fingers detected" },
+    "fingers_4":       { "label": "4 fingers",    "detected": "4 fingers detected" },
+    "ok_sign":         { "label": "OK sign",      "detected": "OK sign detected" },
+    "hold_x":          { "label": "Hold X",       "detected": "Hold X detected" },
+    "object_power_up": { "label": "Object",       "detected": "Object detected" }
+  },
+
+  "screens": {
+
+    "CALIBRATION": {
+      "eyebrow": "LET'S GET YOU READY",
+      "title": "Stand so your head is near the top and your shoulders and hands are in view.",
+      "subtitle": "Raise a hand and hold still while the ring fills.",
+      "status": "SETUP · 1 OF 1",
+      "footer": "POSE CALIBRATION / AUTOMATIC · NO INPUT REQUIRED",
+      "frame_caption": "UPPER BODY · SAFE AREA",
+      "chips": [
+        { "key": "camera", "ok": "Camera detected", "wait": "Looking for camera…" },
+        { "key": "body",   "ok": "Upper body detected", "wait": "Shoulders in view, head in the top 30%…" },
+        { "key": "hands",  "ok": "Hands detected",  "wait": "Looking for your hands…" }
+      ],
+      "options": [],
+      "hints": [],
+      "gesture_map": {}
+    },
+
+    "MAIN_MENU": {
+      "eyebrow": "READY TO MOVE?",
+      "title": "RUN /\nTHE CITY.",
+      "subtitle": "An endless city. A different way to move.",
+      "status": "BODY TRACKING ACTIVE",
+      "options": [
+        { "label": "Start Game",    "finger": 1, "action": "goto:PLAYER_MODE" },
+        { "label": "Gesture Guide", "finger": 2, "action": "goto:GESTURE_GUIDE" },
+        { "label": "Settings",      "finger": 3, "action": "goto:SETTINGS" },
+        { "label": "Quit",          "finger": 4, "action": "goto:QUIT_CONFIRM" }
+      ],
+      "hints": [
+        { "icon": "ok", "text": "OK to confirm", "tone": "accent" },
+        { "icon": "x",  "text": "Hold X to quit", "tone": "danger" }
+      ],
+      "gesture_map": {
+        "fingers_1": "focus_1",
+        "fingers_2": "focus_2",
+        "fingers_3": "focus_3",
+        "fingers_4": "focus_4",
+        "ok_sign": "confirm",
+        "hold_x": "goto:QUIT_CONFIRM"
+      },
+      "by_mode": {
+        "guest":     { "status": "BODY TRACKING ACTIVE" },
+        "bluetooth": {
+          "subtitle": "Welcome back, {display_name}. Your best: {best_score}.",
+          "status": "{display_name} · PROFILE ACTIVE"
+        }
+      }
+    },
+
+    "GESTURE_GUIDE": {
+      "eyebrow": "LEARN THE CONTROLS",
+      "title": "Your body is the controller.",
+      "subtitle": "Move naturally and hold the pose.",
+      "status": "PRACTICE MODE · LIVE",
+      "try_title": "Try a gesture",
+      "back_to": "MAIN_MENU",
+      "options": [],
+      "cards": [
+        { "id": "jump",      "icon": "jump",    "title": "Both hands up",      "text": "Hands above the line → jump" },
+        { "id": "squat",     "icon": "squat",   "title": "Crouch or squat",    "text": "Head below the line → slide" },
+        { "id": "lean",      "icon": "lean",    "title": "Step left or right", "text": "Your third of the camera = your lane" },
+        { "id": "thumbs_up", "icon": "thumb",   "title": "Thumbs up",          "text": "Pause or open quick menu" },
+        { "id": "fingers",   "icon": "fingers", "title": "One to four fingers","text": "Focus numbered menu option" },
+        { "id": "ok",        "icon": "ok",      "title": "OK hand sign",       "text": "Confirm selection" },
+        { "id": "hold_x",    "icon": "x",       "title": "Hold an X",          "text": "Go back or cancel" },
+        { "id": "object",    "icon": "object",  "title": "Show tracked object","text": "Activate power-up" }
+      ],
+      "hints": [],
+      "gesture_map": {
+        "jump": "practice:jump",
+        "squat": "practice:squat",
+        "lean_left": "practice:lean",
+        "lean_right": "practice:lean",
+        "zone_left": "practice:lean",
+        "zone_right": "practice:lean",
+        "thumbs_up": "practice:thumbs_up",
+        "fingers_*": "practice:fingers",
+        "ok_sign": "practice:ok",
+        "hold_x": "practice:hold_x",
+        "object_power_up": "practice:object"
+      }
+    },
+
+    "PLAYER_MODE": {
+      "eyebrow": "STARTING SESSION",
+      "title": "How would you like to play?",
+      "subtitle": "",
+      "status": "BODY TRACKING ACTIVE",
+      "back_to": "MAIN_MENU",
+      "center_caption": "STEP LEFT OR RIGHT",
+      "options": [
+        {
+          "id": "bluetooth", "label": "Sync with Bluetooth", "caption": "STEP LEFT", "icon": "bluetooth",
+          "text": "Connect your player profile and keep your scores across sessions.",
+          "action": "start_bluetooth"
+        },
+        {
+          "id": "guest", "label": "Play as Guest", "caption": "STEP RIGHT", "icon": "person",
+          "text": "Start immediately without connecting a player profile.",
+          "tag": "Score won't be saved",
+          "action": "start_guest"
+        }
+      ],
+      "bt_labels": {
+        "pending":   "PENDING",
+        "scanning":  "SCANNING…",
+        "found":     "FOUND",
+        "not_found": "NOT FOUND",
+        "retry_hint": "No device found. Show the OK sign to try again, or 3 fingers to register a new device.",
+        "scanning_hint": "Looking for your phone…"
+      },
+      "hints": [
+        { "icon": "lean", "text": "Step left or right to choose", "tone": "accent" },
+        { "icon": "ok",   "text": "OK sign to confirm",      "tone": "accent" },
+        { "icon": "bluetooth", "text": "3 fingers: new device", "tone": "accent" },
+        { "icon": "x",    "text": "Hold an X to go back",    "tone": "danger" }
+      ],
+      "gesture_map": {
+        "fingers_3": "goto:BT_REGISTER",
+        "lean_left": "focus_bluetooth",
+        "lean_right": "focus_guest",
+        "zone_left": "focus_bluetooth",
+        "zone_right": "focus_guest",
+        "ok_sign": "confirm",
+        "hold_x": "back"
+      }
+    },
+
+    "PLAYING": {
+      "title": "",
+      "status": "",
+      "options": [],
+      "hints": [],
+      "labels": {
+        "score": "SCORE", "distance": "DISTANCE", "coins": "COINS", "powerup": "POWER-UP",
+        "live": "LIVE TRACKING", "strong": "Tracking strong", "lost": "Tracking lost",
+        "none": "NONE", "ready": "READY", "get_ready": "GET READY"
+      },
+      "gesture_map": {
+        "jump": "jump",
+        "squat": "slide",
+        "lean_left": "lane_left",
+        "lean_right": "lane_right",
+        "zone_left": "lane_zone",
+        "zone_center": "lane_zone",
+        "zone_right": "lane_zone",
+        "thumbs_up": "pause",
+        "object_power_up": "use_powerup"
+      }
+    },
+
+    "PAUSED": {
+      "eyebrow": "GAME PAUSED",
+      "title": "Choose with your fingers.",
+      "status": "SESSION PAUSED",
+      "back_to": "action:resume",
+      "options": [
+        { "label": "Resume",   "finger": 1, "action": "resume" },
+        { "label": "Restart",  "finger": 2, "action": "restart" },
+        { "label": "Settings", "finger": 3, "action": "goto:SETTINGS" },
+        { "label": "Quit",     "finger": 4, "action": "goto:QUIT_CONFIRM" }
+      ],
+      "side_cards": [
+        { "icon": "ok", "title": "OK sign",   "text": "Confirm selection" },
+        { "icon": "x",  "title": "Hold an X", "text": "Go back" }
+      ],
+      "hints": [ { "icon": "thumb", "text": "Thumbs up paused the game", "tone": "accent" } ],
+      "gesture_map": {
+        "fingers_1": "focus_1",
+        "fingers_2": "focus_2",
+        "fingers_3": "focus_3",
+        "fingers_4": "focus_4",
+        "ok_sign": "confirm",
+        "hold_x": "back"
+      }
+    },
+
+    "GAME_OVER": {
+      "eyebrow": "RUN COMPLETE",
+      "title": "",
+      "status": "SESSION SUMMARY",
+      "options": [],
+      "labels": {
+        "final": "FINAL SCORE", "new_best": "NEW BEST", "best": "BEST", "distance": "DISTANCE",
+        "guest_note": "Guest scores aren't saved.",
+        "saved_note": "Saved to {display_name}'s profile."
+      },
+      "cards": [
+        { "icon": "palm",  "gesture": "Open palm",                "result": "Restart" },
+        { "icon": "ok",    "gesture": "Finger selection or OK sign", "result": "Main menu" },
+        { "icon": "x",     "gesture": "Hold an X",                "result": "Quit or go back" }
+      ],
+      "hints": [],
+      "gesture_map": {
+        "open_palm": "restart",
+        "fingers_*": "main_menu",
+        "ok_sign": "main_menu",
+        "hold_x": "goto:QUIT_CONFIRM"
+      },
+      "by_mode": {
+        "guest":     { "status": "SESSION SUMMARY · GUEST" },
+        "bluetooth": { "status": "{display_name} · SESSION SUMMARY" }
+      }
+    },
+
+    "SETTINGS": {
+      "eyebrow": "PERSONALIZE CONTROL",
+      "title": "Settings",
+      "subtitle": "Tune the way AYATLA responds to your movement.",
+      "status": "BODY TRACKING ACTIVE",
+      "back_to": "@return",
+      "help": "Focus a setting with your fingers. Step left or right to adjust (back to the middle between steps).",
+      "unsaved": "UNSAVED CHANGES",
+      "options": [
+        { "key": "sensitivity", "label": "Gesture sensitivity",     "kind": "level",  "format": "level3",  "min": 0.0, "max": 1.0, "step": 0.1,  "finger": 1 },
+        { "key": "hold_time",   "label": "Confirmation hold time",  "kind": "level",  "format": "seconds", "min": 0.5, "max": 3.0, "step": 0.25, "finger": 2 },
+        { "key": "volume",      "label": "Sound volume",            "kind": "level",  "format": "percent", "min": 0.0, "max": 1.0, "step": 0.1,  "finger": 3 },
+        { "key": "camera",      "label": "Camera selection",        "kind": "choice", "choices": ["FaceTime HD Camera", "USB Webcam", "Virtual Camera"], "finger": 4 },
+        { "key": "left_handed", "label": "Left-handed mode",        "kind": "toggle", "finger": 4 }
+      ],
+      "hints": [
+        { "icon": "ok",   "text": "OK sign → Save changes",  "tone": "accent" },
+        { "icon": "palm", "text": "Open palm → Reset defaults", "tone": "accent" },
+        { "icon": "x",    "text": "Hold an X → Go back",     "tone": "danger" }
+      ],
+      "notes": {
+        "saved_profile": "Saved to {display_name}'s profile.",
+        "saved_guest": "Applied for this session (guest settings aren't saved).",
+        "reset": "Defaults restored. Show OK to save."
+      },
+      "gesture_map": {
+        "fingers_1": "focus_1",
+        "fingers_2": "focus_2",
+        "fingers_3": "focus_3",
+        "fingers_4": "focus_4_cycle",
+        "lean_left": "setting_decrease",
+        "lean_right": "setting_increase",
+        "zone_left": "setting_decrease",
+        "zone_right": "setting_increase",
+        "ok_sign": "save_settings",
+        "open_palm": "reset_settings",
+        "hold_x": "back"
+      }
+    },
+
+    "QUIT_CONFIRM": {
+      "eyebrow": "CONFIRM QUIT",
+      "title": "Hold an X for {n} more {seconds_word} to quit.",
+      "subtitle": "Lower your arms to cancel and return.",
+      "waiting": "Cross your arms in an X to start the countdown.",
+      "status": "EXIT REQUEST PENDING",
+      "back_to": "@return",
+      "params": { "seconds": 3.0, "cancel_after_idle": 1.0, "entry_grace": 2.5 },
+      "options": [],
+      "hints": [],
+      "gesture_map": { "hold_x": "quit_hold" }
+    },
+
+    "BT_REGISTER": {
+      "eyebrow": "REGISTER A NEW DEVICE",
+      "title": "Hold your phone next to the laptop.",
+      "subtitle": "Open your phone's Bluetooth settings so it can be seen. The nearest device moves to the top - show the OK sign to register it.",
+      "status": "BLUETOOTH · REGISTRATION",
+      "back_to": "PLAYER_MODE",
+      "options": [],
+      "labels": {
+        "searching": "Searching for devices…",
+        "nearest": "NEAREST",
+        "paired": "PAIRED",
+        "known": "ALREADY {id}",
+        "unnamed": "Unnamed device",
+        "registering": "Registering…",
+        "registered_as": "Registered as {name}!",
+        "starting": "Starting your run…",
+        "mac_note": "Saved by its address, which phones change for privacy. Pair the phone with this laptop (Windows Bluetooth settings) and register it again so it is found by name.",
+        "error": "Bluetooth problem: {message}. Hold an X to go back.",
+        "timeout": "No device chosen in time. Hold an X to go back and try again."
+      },
+      "hints": [
+        { "icon": "fingers", "text": "1-4 fingers to choose", "tone": "accent" },
+        { "icon": "ok",      "text": "OK sign to register",   "tone": "accent" },
+        { "icon": "x",       "text": "Hold an X to go back",  "tone": "danger" }
+      ],
+      "gesture_map": {
+        "fingers_1": "focus_1",
+        "fingers_2": "focus_2",
+        "fingers_3": "focus_3",
+        "fingers_4": "focus_4",
+        "ok_sign": "register_device",
+        "hold_x": "back"
+      }
+    },
+
+    "TRACKING_LOST": {
+      "eyebrow": "GAME AUTO-PAUSED",
+      "title": "We lost track of you.",
+      "subtitle": "Step back into the frame to continue.",
+      "status": "TRACKING INTERRUPTED",
+      "chip": "Searching for body and hands…",
+      "options": [],
+      "hints": [],
+      "gesture_map": {}
+    }
+  }
+}

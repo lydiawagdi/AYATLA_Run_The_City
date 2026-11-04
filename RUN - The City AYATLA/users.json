@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "user_01",
+      "match": {
+        "mac": "66:BF:EA:F9:B7:7B",
+        "name": "Anas"
+      }
+    }
+  ]
+}

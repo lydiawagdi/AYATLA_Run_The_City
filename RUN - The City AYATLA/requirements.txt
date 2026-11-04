@@ -1,0 +1,20 @@
+# AYATLA - installed into the project's own virtual environment (.venv).
+# Easiest: double-click Setup.bat. By hand:
+#     python -m venv .venv
+#     .venv\Scripts\python -m pip install -r requirements.txt
+# Needs Python 3.10, 3.11 or 3.12 (MediaPipe 0.10.21 has no newer builds).
+# hub.py, common.py and run_ayatla.py need only the standard library.
+
+# vision.py / record_templates.py
+mediapipe==0.10.21              # vision.py uses mp.solutions, removed in MediaPipe 0.10.30+
+numpy==1.26.4                   # MediaPipe 0.10.21 needs numpy < 2
+opencv-contrib-python==4.11.0.86  # comes with mediapipe; newer builds need numpy 2
+dollarpy==0.1.1
+# Do NOT also install opencv-python: two OpenCV packages in one environment
+# break "import cv2".
+
+# game.py
+pygame>=2.5
+
+# bluetooth_id.py
+bleak>=0.22
