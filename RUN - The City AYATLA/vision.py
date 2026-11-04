@@ -1129,7 +1129,19 @@ def main():
     parser.add_argument("--camera", type=int, default=None, help="override settings.camera_index")
     parser.add_argument("--enable-object", action="store_true", help="enable optional HSV object power-up")
     parser.add_argument("--templates", type=Path, default=TEMPLATE_DIR)
+    parser.add_argument("--width", type=int, default=640, help="capture width (default: 640)")
+    parser.add_argument("--height", type=int, default=480, help="capture height (default: 480)")
+    parser.add_argument("--model-complexity", type=int, choices=(0, 1), default=0,
+                        help="MediaPipe model complexity: 0 is faster, 1 may be more accurate")
+    parser.add_argument("--max-hands", type=int, choices=(1, 2), default=1,
+                        help="maximum hands to track (default: 1)")
+    parser.add_argument("--no-display", action="store_true",
+                        help="disable the debug window to reduce CPU use (stop with Ctrl+C)")
+    parser.add_argument("--stats", action="store_true",
+                        help="print average pose/hand processing times every 5 seconds")
     args = parser.parse_args()
+    if args.width < 160 or args.height < 120:
+        parser.error("--width must be >= 160 and --height must be >= 120")
 
     shared = SharedState(camera_override=args.camera)
     hub = HubClient(shared, enabled=not args.no_hub)
@@ -1147,11 +1159,11 @@ def main():
     object_detector = ObjectPowerUpDetector(args.templates) if args.enable_object else None
 
     pose = mp.solutions.pose.Pose(
-        static_image_mode=False, model_complexity=1, smooth_landmarks=True,
+        static_image_mode=False, model_complexity=args.model_complexity, smooth_landmarks=True,
         enable_segmentation=False, min_detection_confidence=0.55, min_tracking_confidence=0.55,
     )
     hands = mp.solutions.hands.Hands(
-        static_image_mode=False, max_num_hands=2, model_complexity=1,
+        static_image_mode=False, max_num_hands=args.max_hands, model_complexity=args.model_complexity,
         min_detection_confidence=0.55, min_tracking_confidence=0.55,
     )
 
@@ -1164,7 +1176,14 @@ def main():
     last_score = 0.0
     fps = 0.0
     last_frame_time = time.monotonic()
-    print("[vision] press q in the debug window to quit")
+    stats_started = last_frame_time
+    stats_frames = 0
+    stats_pose_seconds = 0.0
+    stats_hands_seconds = 0.0
+    if args.no_display:
+        print("[vision] debug window disabled; press Ctrl+C to quit")
+    else:
+        print("[vision] press q in the debug window to quit")
 
     try:
         while True:
@@ -1185,8 +1204,11 @@ def main():
                 found_since = None
                 active_camera = requested_camera
                 cap = cv2.VideoCapture(active_camera)
-                cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+                # A one-frame capture buffer avoids processing stale frames when
+                # MediaPipe briefly falls behind the camera.
+                cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH, args.width)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, args.height)
                 if not cap.isOpened():
                     print(f"[vision] cannot open camera {active_camera}; retrying")
                     cap.release()
@@ -1210,9 +1232,16 @@ def main():
             frame = cv2.flip(frame, 1)
             rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             rgb.flags.writeable = False
+            pose_started = time.perf_counter()
             pose_results = pose.process(rgb)
+            pose_elapsed = time.perf_counter() - pose_started
+            hands_started = time.perf_counter()
             hand_results = hands.process(rgb)
+            hands_elapsed = time.perf_counter() - hands_started
             rgb.flags.writeable = True
+            stats_frames += 1
+            stats_pose_seconds += pose_elapsed
+            stats_hands_seconds += hands_elapsed
 
             pose_landmarks = pose_results.pose_landmarks.landmark if pose_results.pose_landmarks else None
             body_seen = pose_landmarks is not None
@@ -1303,12 +1332,25 @@ def main():
             last_frame_time = now
             instantaneous_fps = 1.0 / dt
             fps = instantaneous_fps if fps == 0 else (0.9 * fps + 0.1 * instantaneous_fps)
-            draw_zones(frame, zones, squat_line, hands_up)
-            draw_debug(frame, pose_results, hand_results, fps, last_gesture, last_score,
-                       str(state.get("context", "")), body_detector.status)
-            cv2.imshow("Game Vision Debug (q to quit)", frame)
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
+            if args.stats and now - stats_started >= 5.0:
+                elapsed = max(now - stats_started, 1e-6)
+                print(
+                    f"[vision stats] {stats_frames / elapsed:.1f} FPS | "
+                    f"Pose {stats_pose_seconds / max(stats_frames, 1) * 1000:.1f} ms | "
+                    f"Hands {stats_hands_seconds / max(stats_frames, 1) * 1000:.1f} ms"
+                )
+                stats_started = now
+                stats_frames = 0
+                stats_pose_seconds = 0.0
+                stats_hands_seconds = 0.0
+
+            if not args.no_display:
+                draw_zones(frame, zones, squat_line, hands_up)
+                draw_debug(frame, pose_results, hand_results, fps, last_gesture, last_score,
+                           str(state.get("context", "")), body_detector.status)
+                cv2.imshow("Game Vision Debug (q to quit)", frame)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    break
 
     finally:
         if cap is not None:
